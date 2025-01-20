@@ -71,7 +71,7 @@ namespace FlashbackAvisering
             }
             catch (Exception ex)
             {
-                lblError.Text = "Fel vid hämtning av data från Flashback";
+                lblError.Text = "Fel vid hämtning av data från Flashback. Försöker igen...";
             }
 
             if (!(forums.Count == topics.Count && topics.Count == users.Count) || (forums.Count == 0 || topics.Count == 0 || users.Count == 0))
@@ -263,6 +263,8 @@ namespace FlashbackAvisering
                 lblSettingsSaved.ForeColor = Color.Green;
                 lblSettingsSaved.Text = $"Dina inställningar har sparats.";
                 lblError.Text = "";
+
+                LoadSettings();
             }
             catch (Exception ex)
             {
