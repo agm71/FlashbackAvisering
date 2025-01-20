@@ -51,14 +51,14 @@ namespace FlashbackAvisering
 
         private void GetDataFromFlashback()
         {
-            var url = "https://www.flashback.org";
-            var web = new HtmlWeb();
-            var doc = web.Load(url);
-
-            lblError.Text = "";
-
             try
             {
+                var url = "https://www.flashback.org";
+                var web = new HtmlWeb();
+                var doc = web.Load(url);
+
+                lblError.Text = "";
+            
                 forums = doc.DocumentNode
                     .SelectNodes("//table//a//strong").Select(x => x.InnerText).ToList();
 
@@ -71,12 +71,12 @@ namespace FlashbackAvisering
             }
             catch (Exception ex)
             {
-                lblError.Text = "Fel vid hämtning av data från Flashback";
+                lblError.Text = "Fel vid hÃ¤mtning av data frÃ¥n Flashback";
             }
 
             if (!(forums.Count == topics.Count && topics.Count == users.Count) || (forums.Count == 0 || topics.Count == 0 || users.Count == 0))
             {
-                lblError.Text = "Data från Flashback har inte parsats korrekt.";
+                lblError.Text = "Data frÃ¥n Flashback har inte parsats korrekt.";
             }
         }
 
@@ -172,7 +172,7 @@ namespace FlashbackAvisering
             }
             catch (JsonException)
             {
-                lblError.Text = "Inställningsfilen är korrupt. Spara dina inställningar igen.";
+                lblError.Text = "InstÃ¤llningsfilen Ã¤r korrupt. Spara dina instÃ¤llningar igen.";
             }
         }
 
@@ -205,7 +205,7 @@ namespace FlashbackAvisering
             }
             catch
             {
-                lblError.Text = "Något gick fel när sparade inställningar skulle laddas.";
+                lblError.Text = "NÃ¥got gick fel nÃ¤r sparade instÃ¤llningar skulle laddas.";
             }
         }
 
@@ -213,7 +213,7 @@ namespace FlashbackAvisering
         {
             if (numericUpDownInterval.Value < 1)
             {
-                lblError.Text = "Du måste ange ett intervall som är större än 0.";
+                lblError.Text = "Du mÃ¥ste ange ett intervall som Ã¤r stÃ¶rre Ã¤n 0.";
                 return;
             }
 
@@ -229,7 +229,7 @@ namespace FlashbackAvisering
 
             if (duplicateUsers.Count != 0)
             {
-                lblError.Text = "Det finns likadana användarnamn som förekommer i båda listorna.";
+                lblError.Text = "Det finns likadana anvÃ¤ndarnamn som fÃ¶rekommer i bÃ¥da listorna.";
                 return;
             }
 
@@ -261,12 +261,12 @@ namespace FlashbackAvisering
                 sw.Close();
 
                 lblSettingsSaved.ForeColor = Color.Green;
-                lblSettingsSaved.Text = $"Dina inställningar har sparats.";
+                lblSettingsSaved.Text = $"Dina instÃ¤llningar har sparats.";
                 lblError.Text = "";
             }
             catch (Exception ex)
             {
-                lblError.Text = "Något gick fel när inställningarna skulle sparas.";
+                lblError.Text = "NÃ¥got gick fel nÃ¤r instÃ¤llningarna skulle sparas.";
             }
         }
 
