@@ -1,4 +1,6 @@
-﻿namespace FlashbackAvisering
+﻿using System;
+
+namespace FlashbackAvisering
 {
     partial class FrmSettings
     {
@@ -30,6 +32,7 @@
         {
             cklForums = new CheckedListBox();
             grpForums = new GroupBox();
+            chkSelectDeselectAll = new CheckBox();
             lblSelectForums = new Label();
             grpUsers = new GroupBox();
             lblDoNotShowAlertsForSpecificUsers = new Label();
@@ -45,7 +48,6 @@
             lblIntervalInfo = new Label();
             lblSettingsSaved = new Label();
             lblError = new Label();
-            chkSelectDeselectAll = new CheckBox();
             grpForums.SuspendLayout();
             grpUsers.SuspendLayout();
             grpInterval.SuspendLayout();
@@ -74,6 +76,17 @@
             grpForums.TabIndex = 3;
             grpForums.TabStop = false;
             grpForums.Text = "Forum";
+            // 
+            // chkSelectDeselectAll
+            // 
+            chkSelectDeselectAll.AutoSize = true;
+            chkSelectDeselectAll.Location = new Point(13, 68);
+            chkSelectDeselectAll.Name = "chkSelectDeselectAll";
+            chkSelectDeselectAll.Size = new Size(188, 21);
+            chkSelectDeselectAll.TabIndex = 5;
+            chkSelectDeselectAll.Text = "Markera/avmarkera alla";
+            chkSelectDeselectAll.UseVisualStyleBackColor = true;
+            chkSelectDeselectAll.CheckedChanged += ChkSelectDeselectAll_CheckedChanged;
             // 
             // lblSelectForums
             // 
@@ -162,7 +175,7 @@
             grpInterval.Font = new Font("Verdana", 10F);
             grpInterval.Location = new Point(12, 437);
             grpInterval.Name = "grpInterval";
-            grpInterval.Size = new Size(357, 112);
+            grpInterval.Size = new Size(357, 97);
             grpInterval.TabIndex = 7;
             grpInterval.TabStop = false;
             grpInterval.Text = "Intervall";
@@ -217,21 +230,10 @@
             lblError.AutoSize = true;
             lblError.Font = new Font("Verdana", 10F);
             lblError.ForeColor = Color.Firebrick;
-            lblError.Location = new Point(12, 532);
+            lblError.Location = new Point(12, 543);
             lblError.Name = "lblError";
             lblError.Size = new Size(0, 17);
             lblError.TabIndex = 9;
-            // 
-            // chkSelectDeselectAll
-            // 
-            chkSelectDeselectAll.AutoSize = true;
-            chkSelectDeselectAll.Location = new Point(13, 68);
-            chkSelectDeselectAll.Name = "chkSelectDeselectAll";
-            chkSelectDeselectAll.Size = new Size(188, 21);
-            chkSelectDeselectAll.TabIndex = 5;
-            chkSelectDeselectAll.Text = "Markera/avmarkera alla";
-            chkSelectDeselectAll.UseVisualStyleBackColor = true;
-            chkSelectDeselectAll.CheckedChanged += ChkSelectDeselectAll_CheckedChanged;
             // 
             // FrmSettings
             // 

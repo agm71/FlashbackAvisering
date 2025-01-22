@@ -29,7 +29,19 @@ namespace FlashbackAvisering
             InitializeComponent();
 
             timer = new Timer();
-            timer.Tick += Timer_Tick;
+            timer.Tick += async (source, eventArgs) => await TimerFunc();
+        }
+
+        private async Task TimerFunc()
+        {
+            if (numericUpDownInterval.Value > 0 && cklForums.CheckedItems.Count > 0)
+            {
+                await GetDataFromFlashback(false);
+
+                var newSnapshot = GetSnapShot();
+
+                CompareSnapshotsAndSendNotificationsIfNeeded(currentSnapshot, newSnapshot);
+            }
         }
 
         private static void ShowNotification(string userName, string topic, string topicUrl)
@@ -49,7 +61,7 @@ namespace FlashbackAvisering
             }
         }
 
-        private void GetDataFromFlashback()
+        private async Task GetDataFromFlashback(bool firstExecution)
         {
             try
             {
@@ -69,26 +81,27 @@ namespace FlashbackAvisering
                     .SelectNodes("//div[contains(text(),'av ')]//a[starts-with(@href, '/f')]").Select(x => x.InnerText).ToList();
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                lblError.Text = "Fel vid hämtning av data från Flashback. Försöker igen...";
+                lblError.Text = "Fel när data skulle hämtas från Flashback. Försöker igen...";
+
+                await Task.Delay(5000);
+
+                if (firstExecution)
+                {
+                    await GetDataFromFlashback(firstExecution);
+                }
+                else
+                {
+                    await TimerFunc();
+                }
             }
 
             if (!(forums.Count == topics.Count && topics.Count == users.Count) || (forums.Count == 0 || topics.Count == 0 || users.Count == 0))
             {
-                lblError.Text = "Data från Flashback har inte parsats korrekt.";
-            }
-        }
-
-        private void Timer_Tick(object? sender, EventArgs e)
-        {
-            if (numericUpDownInterval.Value > 0 && cklForums.CheckedItems.Count > 0)
-            {
-                GetDataFromFlashback();
-
-                var newSnapshot = GetSnapShot();
-
-                CompareSnapshotsAndSendNotificationsIfNeeded(currentSnapshot, newSnapshot);
+                lblError.Text = "Data från Flashback kunde inte parsas korrekt. Programmet avslutas.";
+                await Task.Delay(3000);
+                Application.Exit();
             }
         }
 
@@ -133,7 +146,12 @@ namespace FlashbackAvisering
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            GetDataFromFlashback();
+            InitializeAsync();
+        }
+
+        private async Task InitializeAsync()
+        {
+            await GetDataFromFlashback(true);
 
             currentSnapshot = GetSnapShot();
 
